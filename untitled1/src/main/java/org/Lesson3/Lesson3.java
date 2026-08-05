@@ -1,5 +1,3 @@
-package org.Lesson3;
-
 import java.util.Arrays;
 
 public class Lesson3 {
