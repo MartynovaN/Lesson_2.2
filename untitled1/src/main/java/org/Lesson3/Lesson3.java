@@ -7,10 +7,21 @@ public class Lesson3 {
                 "15.07.2026",
                 "Lenovo",
                 "Китай",
-                65000,
+                165000,
                 false
         );
 
+        Product product3 = new Product(
+                "Ноутбук2",
+                "06.08.2026",
+                "Lenovo",
+                "Китай",
+                175000,
+                true
+        );
+
         product.printInfo();
+
+        product3.printInfo();
     }
 }
