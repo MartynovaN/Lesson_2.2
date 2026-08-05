@@ -14,5 +14,3 @@ public class Lesson3 {
         product.printInfo();
     }
 }
-
-
