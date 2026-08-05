@@ -52,7 +52,8 @@ public class Lesson3 {
             System.out.println();
         }
 
-// task 3
+        // задание 3
+
         Park park = new Park();
 
         Park.Attraction attraction1 =
