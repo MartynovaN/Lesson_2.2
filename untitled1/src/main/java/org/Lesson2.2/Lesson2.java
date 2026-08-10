@@ -59,14 +59,12 @@ public class Lesson2 {
         System.out.println(Arrays.toString(newArray));
     }
 
-
     // задание 1
     public static void printThreeWords() {
         System.out.println("Orange");
         System.out.println("Banana");
         System.out.println("Apple");
     }
-
 
     // задание 2
     public static void checkSumSign() {
@@ -79,7 +77,6 @@ public class Lesson2 {
             System.out.println("Сумма отрицательная");
         }
     }
-
 
     // задание 3
     public static void printColor() {
@@ -94,7 +91,6 @@ public class Lesson2 {
         }
     }
 
-
     // задание 4
     public static void compareNumbers() {
         int a = 8;
@@ -107,18 +103,10 @@ public class Lesson2 {
         }
     }
 
-
     // задание 5
     public static boolean checkSum(int a, int b) {
-        int sum = a + b;
-
-        if (sum >= 10 && sum <= 20) {
-            return true;
-        } else {
-            return false;
-        }
+        return a + b >= 10 && a + b <= 20;
     }
-
 
     // задание 6
     public static void checkNumber(int number) {
@@ -129,16 +117,10 @@ public class Lesson2 {
         }
     }
 
-
     // задание 7
     public static boolean checkNegative(int number) {
-        if (number < 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return number < 0;
     }
-
 
     // задание 8
     public static void printString(String text, int count) {
@@ -147,20 +129,10 @@ public class Lesson2 {
         }
     }
 
-
     // задание 9
     public static boolean isLeapYear(int year) {
-        if (year % 400 == 0) {
-            return true;
-        } else if (year % 100 == 0) {
-            return false;
-        } else if (year % 4 == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return year % 400 == 0 || year % 4 == 0 && year % 100 != 0;
     }
-
 
     // задание 10
     public static void invertArray(int[] array) {
@@ -173,7 +145,6 @@ public class Lesson2 {
         }
     }
 
-
     // задание 11
     public static void fillArray() {
         int[] array = new int[100];
@@ -185,7 +156,6 @@ public class Lesson2 {
         System.out.println(Arrays.toString(array));
     }
 
-
     // задание 12
     public static void multiplyLessThanSix(int[] array) {
         for (int i = 0; i < array.length; i++) {
@@ -196,7 +166,6 @@ public class Lesson2 {
 
         System.out.println(Arrays.toString(array));
     }
-
 
     // задание 13
     public static void createDiagonalArray() {
@@ -211,7 +180,6 @@ public class Lesson2 {
             System.out.println(Arrays.toString(array[i]));
         }
     }
-
 
     // задание 14
     public static int[] createArray(int len, int initialValue) {
