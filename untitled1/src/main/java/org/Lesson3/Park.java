@@ -1,7 +1,7 @@
 public class Park {
 
     // Внутренний класс
-    private class Attraction {
+    public class Attraction {
 
         private String name;
         private String workingHours;
