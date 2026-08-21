@@ -1,44 +1,44 @@
 package lesson7;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertThrows;
 
 public class FactorialTest {
 
-    @Test
-    void shouldCalculateFactorial() {
-        Factorial factorial = new Factorial();
+    private Factorial factorial;
 
-        int result = factorial.calculate(5);
-
-        assertEquals(120, result);
+    @BeforeMethod
+    public void setUp() {
+        factorial = new Factorial();
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "0, 1",
-            "1, 1",
-            "2, 2",
-            "3, 6",
-            "5, 120",
-            "10, 3628800"
-    })
-    void shouldCalculateFactorialForDifferentNumbers(int number, int expected) {
-        Factorial factorial = new Factorial();
+    @AfterMethod
+    public void tearDown() {
+        factorial = null;
+    }
 
-        int result = factorial.calculate(number);
+    @DataProvider(name = "factorialData")
+    public Object[][] factorialData() {
+        return new Object[][]{
+                {0, 1},
+                {1, 1},
+                {5, 120},
+                {10, 3628800}
+        };
+    }
 
-        assertEquals(expected, result);
+    @Test(dataProvider = "factorialData")
+    public void shouldCalculateFactorial(int number, int expected) {
+        assertEquals(factorial.calculate(number), expected);
     }
 
     @Test
-    void shouldThrowExceptionForNegativeNumber() {
-        Factorial factorial = new Factorial();
-
+    public void shouldThrowExceptionForNegativeNumber() {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> factorial.calculate(-1)

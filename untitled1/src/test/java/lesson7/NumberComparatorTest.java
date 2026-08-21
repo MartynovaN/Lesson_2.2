@@ -1,35 +1,37 @@
 package lesson7;
 
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 public class NumberComparatorTest {
 
-    @Test
-    void shouldReturnMinusOneWhenFirstNumberIsLess() {
-        NumberComparator comparator = new NumberComparator();
+    private NumberComparator comparator;
 
-        int result = comparator.compare(5, 10);
+    @BeforeMethod
+    public void setUp() {
+        comparator = new NumberComparator();
+    }
 
-        assertEquals(-1, result);
+    @AfterMethod
+    public void tearDown() {
+        comparator = null;
     }
 
     @Test
-    void shouldReturnOneWhenFirstNumberIsGreater() {
-        NumberComparator comparator = new NumberComparator();
-
-        int result = comparator.compare(10, 5);
-
-        assertEquals(1, result);
+    public void shouldReturnMinusOneWhenFirstNumberIsSmaller() {
+        assertEquals(comparator.compare(5, 10), -1);
     }
 
     @Test
-    void shouldReturnZeroWhenNumbersAreEqual() {
-        NumberComparator comparator = new NumberComparator();
+    public void shouldReturnOneWhenFirstNumberIsGreater() {
+        assertEquals(comparator.compare(10, 5), 1);
+    }
 
-        int result = comparator.compare(5, 5);
-
-        assertEquals(0, result);
+    @Test
+    public void shouldReturnZeroWhenNumbersAreEqual() {
+        assertEquals(comparator.compare(5, 5), 0);
     }
 }

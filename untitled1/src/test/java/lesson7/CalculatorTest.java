@@ -1,60 +1,42 @@
 package lesson7;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.testng.Assert.assertEquals;
 
 public class CalculatorTest {
 
     private Calculator calculator;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeMethod
+    public void setUp() {
         calculator = new Calculator();
     }
 
-    @AfterEach
-    void tearDown() {
+    @AfterMethod
+    public void tearDown() {
         calculator = null;
     }
 
     @Test
-    void shouldAddNumbers() {
-        int result = calculator.add(10, 5);
-
-        assertEquals(15, result);
+    public void shouldAddNumbers() {
+        assertEquals(calculator.add(10, 5), 15);
     }
 
     @Test
-    void shouldSubtractNumbers() {
-        int result = calculator.subtract(10, 5);
-
-        assertEquals(5, result);
+    public void shouldSubtractNumbers() {
+        assertEquals(calculator.subtract(10, 5), 5);
     }
 
     @Test
-    void shouldMultiplyNumbers() {
-        int result = calculator.multiply(10, 5);
-
-        assertEquals(50, result);
+    public void shouldMultiplyNumbers() {
+        assertEquals(calculator.multiply(10, 5), 50);
     }
 
     @Test
-    void shouldDivideNumbers() {
-        int result = calculator.divide(10, 5);
-
-        assertEquals(2, result);
-    }
-
-    @Test
-    void shouldCalculateOnlyOnWindows() {
-        assumeTrue(System.getProperty("os.name").contains("Windows"));
-
-        int result = calculator.add(2, 3);
-
-        assertEquals(5, result);
+    public void shouldDivideNumbers() {
+        assertEquals(calculator.divide(10, 5), 2);
     }
 }

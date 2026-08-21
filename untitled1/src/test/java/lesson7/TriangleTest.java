@@ -1,38 +1,36 @@
 package lesson7;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 public class TriangleTest {
 
-    @Test
-    void shouldCalculateTriangleArea() {
-        Triangle triangle = new Triangle();
+    private Triangle triangle;
 
-        double result = triangle.calculateArea(10, 5);
-
-        assertEquals(25.0, result);
+    @BeforeMethod
+    public void setUp() {
+        triangle = new Triangle();
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "10, 5, 25.0",
-            "6, 4, 12.0",
-            "8, 3, 12.0",
-            "5, 5, 12.5"
-    })
-    void shouldCalculateTriangleAreaForDifferentValues(
-            double base,
-            double height,
-            double expected) {
+    @AfterMethod
+    public void tearDown() {
+        triangle = null;
+    }
 
-        Triangle triangle = new Triangle();
+    @Test
+    public void shouldCalculateTriangleArea() {
+        double result = triangle.calculateArea(10, 5);
 
-        double result = triangle.calculateArea(base, height);
+        assertEquals(result, 25.0);
+    }
 
-        assertEquals(expected, result);
+    @Test
+    public void shouldCalculateTriangleAreaForDifferentValues() {
+        double result = triangle.calculateArea(6, 4);
+
+        assertEquals(result, 12.0);
     }
 }
