@@ -21,26 +21,23 @@ public class SeleniumTest {
     private WebDriverWait wait;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         driver = new ChromeDriver();
-
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
         driver.manage().window().maximize();
         driver.get("https://mts.by/");
-
         closeCookieIfPresent();
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
 
     @Test
-    void checkOnlinePaymentBlockTitle() {
+    public void checkOnlinePaymentBlockTitle() {
         WebElement title = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(
                         By.cssSelector("section.pay h2")
@@ -60,7 +57,7 @@ public class SeleniumTest {
     }
 
     @Test
-    void checkPaymentSystemLogos() {
+    public void checkPaymentSystemLogos() {
         WebElement visa = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(
                         By.cssSelector("section.pay img[alt='Visa']")
@@ -91,29 +88,38 @@ public class SeleniumTest {
                 )
         );
 
-        Assertions.assertTrue(visa.isDisplayed(), "Логотип Visa не отображается");
+        Assertions.assertTrue(
+                visa.isDisplayed(),
+                "Логотип Visa не отображается"
+        );
+
         Assertions.assertTrue(
                 verifiedByVisa.isDisplayed(),
                 "Логотип Verified By Visa не отображается"
         );
+
         Assertions.assertTrue(
                 mastercard.isDisplayed(),
                 "Логотип MasterCard не отображается"
         );
+
         Assertions.assertTrue(
                 mastercardSecure.isDisplayed(),
                 "Логотип MasterCard Secure Code не отображается"
         );
+
         Assertions.assertTrue(
                 belkart.isDisplayed(),
                 "Логотип Белкарт не отображается"
         );
 
-        System.out.println("Все логотипы платёжных систем найдены и отображаются.");
+        System.out.println(
+                "Все логотипы платёжных систем найдены и отображаются."
+        );
     }
 
     @Test
-    void checkMoreAboutServiceLink() {
+    public void checkMoreAboutServiceLink() {
         WebElement link = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.xpath(
@@ -170,18 +176,20 @@ public class SeleniumTest {
 
         String currentUrl = driver.getCurrentUrl();
 
-        System.out.println("Текущий URL после перехода: " + currentUrl);
-
         Assertions.assertTrue(
                 currentUrl.contains(
                         "/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/"
                 ),
-                "Переход по ссылке выполнен неправильно"
+                "Открылась неправильная страница: " + currentUrl
+        );
+
+        System.out.println(
+                "После клика открыта страница: " + currentUrl
         );
     }
 
     @Test
-    void checkContinueButtonForCommunicationServices() {
+    public void checkContinueButtonForCommunicationServices() {
         WebElement communicationServices = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.xpath(
@@ -203,11 +211,17 @@ public class SeleniumTest {
                 communicationServices
         );
 
+        System.out.println("Открыта форма «Услуги связи».");
+
         WebElement phoneInput = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath(
-                                "//section[contains(@class,'pay')]//input"
-                        )
+                        By.id("connection-phone")
+                )
+        );
+
+        WebElement amountInput = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.id("connection-sum")
                 )
         );
 
@@ -216,8 +230,13 @@ public class SeleniumTest {
 
         System.out.println("Введён номер: 297777777");
 
+        amountInput.clear();
+        amountInput.sendKeys("10");
+
+        System.out.println("Введена сумма: 10");
+
         WebElement continueButton = wait.until(
-                ExpectedConditions.presenceOfElementLocated(
+                ExpectedConditions.elementToBeClickable(
                         By.xpath(
                                 "//section[contains(@class,'pay')]" +
                                         "//button[contains(normalize-space(),'Продолжить')]"
@@ -239,6 +258,8 @@ public class SeleniumTest {
                 continueButton
         );
 
+        closeCookieIfPresent();
+
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].click();",
                 continueButton
@@ -246,10 +267,29 @@ public class SeleniumTest {
 
         System.out.println("Кнопка «Продолжить» нажата.");
 
+        wait.until(
+                ExpectedConditions.frameToBeAvailableAndSwitchToIt(
+                        By.cssSelector("iframe.payment-widget-iframe")
+                )
+        );
+
+        System.out.println("Переключились в iframe платёжной формы.");
+
+        WebElement cardNumberInput = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.id("cc-number")
+                )
+        );
+
         Assertions.assertTrue(
-                continueButton.isDisplayed()
-                        || driver.getCurrentUrl() != null,
-                "После нажатия кнопки произошла ошибка"
+                cardNumberInput.isDisplayed(),
+                "После нажатия кнопки «Продолжить» " +
+                        "поле «Номер карты» не отображается"
+        );
+
+        System.out.println(
+                "После нажатия кнопки «Продолжить» " +
+                        "платёжная форма отображается."
         );
     }
 
@@ -260,7 +300,9 @@ public class SeleniumTest {
             );
 
             if (cookies.isEmpty()) {
-                System.out.println("Cookie-баннер не найден. Продолжаем тест.");
+                System.out.println(
+                        "Cookie-баннер не найден. Продолжаем тест."
+                );
                 return;
             }
 
@@ -282,7 +324,9 @@ public class SeleniumTest {
                         buttons.get(0)
                 );
 
-                System.out.println("Cookie-баннер закрыт кнопкой.");
+                System.out.println(
+                        "Cookie-баннер закрыт кнопкой."
+                );
             }
 
             Thread.sleep(500);
@@ -299,12 +343,15 @@ public class SeleniumTest {
                         visibleCookies.get(0)
                 );
 
-                System.out.println("Cookie-баннер принудительно удалён.");
+                System.out.println(
+                        "Cookie-баннер принудительно удалён."
+                );
             }
 
         } catch (Exception e) {
             System.out.println(
-                    "Cookie-баннер не удалось закрыть: " + e.getMessage()
+                    "Cookie-баннер не удалось закрыть: "
+                            + e.getMessage()
             );
         }
     }
