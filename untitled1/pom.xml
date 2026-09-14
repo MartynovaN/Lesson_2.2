@@ -33,6 +33,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.35.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>
